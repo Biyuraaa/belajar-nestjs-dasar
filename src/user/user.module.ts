@@ -30,7 +30,17 @@ import {
       useFactory: createUserRepository,
       inject: [Connection],
     },
+    {
+      provide: 'EmailService',
+      useExisting: mailService,
+    },
   ],
-  exports: [UserService, Connection, MailService, UserRepository],
+  exports: [
+    UserService,
+    Connection,
+    MailService,
+    UserRepository,
+    'MailService',
+  ],
 })
 export class UserModule {}

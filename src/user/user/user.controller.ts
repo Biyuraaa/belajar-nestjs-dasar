@@ -9,6 +9,7 @@ import {
   Redirect,
   Req,
   Res,
+  Inject,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
@@ -23,11 +24,13 @@ export class UserController {
     private connection: Connection,
     private mailService: MailService,
     private userRepository: UserRepository,
+    @Inject('EmailService') private emailService: MailService,
   ) {}
 
   @Get('/connection')
   async getConnection(): Promise<string> {
     this.userRepository.save();
+    this.emailService.send();
     this.mailService.send();
     return this.connection.getName();
   }
